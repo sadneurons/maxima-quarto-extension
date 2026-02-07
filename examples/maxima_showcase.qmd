@@ -23,6 +23,7 @@ Prerequisites:
 
 - Maxima on `PATH`
 - `gnuplot` installed (for default plotting backend)
+- Maxima `draw` package available (for `draw2d` / `draw3d`)
 - LaTeX engine for PDF output
 
 If you hit `luaotfload` cache errors while rendering, use:
