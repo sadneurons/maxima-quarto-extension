@@ -1,0 +1,263 @@
+---
+title: "Enhanced Maxima Features Test"
+format: pdf
+---
+
+```{r}
+#| include: false
+source("_extensions/maxima/knitr-engine.R")
+```
+
+# Enhanced Feature Testing
+
+## 1. Multiple Figure Formats (PNG and PDF)
+
+### PNG Format (Default)
+```{maxima}
+#| label: fig-png
+#| plot: true
+#| fig-cap: "Sine wave in PNG format"
+#| fig.align: center
+#| out.width: "70%"
+
+plot2d(sin(x), [x, -2*%pi, 2*%pi]);
+```
+
+### PDF Format (Vector Graphics)
+```{maxima}
+#| label: fig-pdf-plot
+#| plot: true
+#| fig.dev: pdf
+#| fig-cap: "Cosine wave in PDF format (vector)"
+#| fig.align: center
+
+plot2d(cos(x), [x, -2*%pi, 2*%pi]);
+```
+
+## 2. Results Handling Options
+
+### Results: asis (Direct LaTeX/Markdown)
+```{maxima}
+#| results: asis
+#| tex: true
+
+integrate(x^2, x);
+```
+
+### Results: markup (Code Block)
+```{maxima}
+#| results: markup
+#| tex: true
+
+solve(x^2 - 5*x + 6 = 0, x);
+```
+
+### Results: hide (No Output Shown)
+```{maxima}
+#| results: hide
+
+/* This computes something but doesn't show output */
+a: 42;
+b: a * 2;
+```
+
+The above chunk computed values but showed no output.
+
+### Results: hold (Default Behavior)
+```{maxima}
+#| results: hold
+#| tex: true
+
+diff(sin(x)^2, x);
+```
+
+## 3. Warning and Message Filtering
+
+### With Warnings and Messages
+```{maxima}
+#| warning: true
+#| message: true
+#| tex: true
+
+load("draw");
+solve([x+y=1, 2*x-y=2], [x, y]);
+```
+
+### Without Warnings and Messages
+```{maxima}
+#| warning: false
+#| message: false
+#| tex: true
+
+load("draw");
+solve([x+y=1, 2*x-y=2], [x, y]);
+```
+
+## 4. Figure Alignment and Sizing
+
+### Left Aligned, Custom Width
+```{maxima}
+#| label: fig-left
+#| plot: true
+#| fig.align: left
+#| out.width: "50%"
+#| fig-cap: "Left-aligned plot at 50% width"
+
+plot2d([sin(x), cos(x)], [x, 0, 2*%pi]);
+```
+
+### Center Aligned, Custom Dimensions
+```{maxima}
+#| label: fig-center
+#| plot: true
+#| fig.align: center
+#| out.width: "80%"
+#| out.height: "400px"
+#| fig-cap: "Center-aligned plot with custom dimensions"
+
+plot2d(exp(-x^2), [x, -3, 3], [ylabel, "e^{-x^2}"]);
+```
+
+### Right Aligned, Large
+```{maxima}
+#| label: fig-right
+#| plot: true
+#| fig.align: right
+#| out.width: "90%"
+#| fig-cap: "Right-aligned large plot"
+
+plot2d(x*sin(1/x), [x, -1, 1], [y, -1, 1]);
+```
+
+## 5. Draw Package Backend
+
+### PNG with Draw Backend
+```{maxima}
+#| label: fig-draw-png
+#| plot: true
+#| plot_backend: draw
+#| fig.dev: png
+#| fig-cap: "Multiple functions using draw package"
+#| fig.align: center
+#| out.width: "85%"
+
+draw2d(
+  color = red,
+  explicit(sin(x), x, 0, 2*%pi),
+  color = blue,
+  explicit(cos(x), x, 0, 2*%pi),
+  title = "Sine and Cosine",
+  grid = true
+);
+```
+
+### PDF with Draw Backend
+```{maxima}
+#| label: fig-draw-pdf
+#| plot: true
+#| plot_backend: draw
+#| fig.dev: pdf
+#| fig-cap: "3D surface using draw package (PDF)"
+#| fig.align: center
+#| out.width: "95%"
+
+draw3d(
+  surface_hide = true,
+  color = green,
+  explicit(sin(x)*cos(y), x, -2, 2, y, -2, 2),
+  title = "sin(x)*cos(y)"
+);
+```
+
+## 6. High-Precision Computation
+
+### Big Float with High Precision
+```{maxima}
+#| bfloat: true
+#| fpprec: 50
+#| results: markup
+
+%pi;
+```
+
+### Regular Float
+```{maxima}
+#| float: true
+#| results: markup
+
+sqrt(2);
+```
+
+## 7. Simplification Options
+
+### Trigonometric Simplification
+```{maxima}
+#| trigsimp: true
+#| tex: true
+#| results: asis
+
+sin(x)^2 + cos(x)^2;
+```
+
+### Rational Simplification
+```{maxima}
+#| ratsimp: true
+#| tex: true
+#| results: asis
+
+(x^2 - 1)/(x - 1);
+```
+
+### Factoring
+```{maxima}
+#| factor: true
+#| tex: true
+#| results: asis
+
+x^2 - 5*x + 6;
+```
+
+## 8. Session Persistence Across Chunks
+
+### Define Variables
+```{maxima}
+#| session: true
+#| results: hide
+
+matrix_a: matrix([1, 2], [3, 4]);
+matrix_b: matrix([5, 6], [7, 8]);
+```
+
+### Use Defined Variables - Matrix Multiplication
+```{maxima}
+#| session: true
+#| tex: true
+#| results: asis
+
+matrix_a . matrix_b;
+```
+
+### More Operations on Session Variables
+```{maxima}
+#| session: true
+#| tex: true
+#| results: asis
+
+determinant(matrix_a);
+```
+
+## Summary
+
+This document demonstrates all enhanced features:
+
+- ✅ **Multiple figure formats** (PNG, PDF)
+- ✅ **Results handling** (asis, markup, hide, hold)
+- ✅ **Warning/message filtering** (clean output)
+- ✅ **Figure alignment** (left, center, right)
+- ✅ **Custom figure sizing** (out.width, out.height)
+- ✅ **Draw package backend** support
+- ✅ **High-precision arithmetic** (bfloat, fpprec)
+- ✅ **Multiple simplification** methods
+- ✅ **Session persistence** across chunks
+
+All features work seamlessly with Quarto's document rendering system!

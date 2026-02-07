@@ -1,0 +1,44 @@
+---
+title: "Maxima Draw Package Test"
+format: 
+    pdf:
+        monofont: "Operator Mono Lig Book"
+        sansfont: "Gill Sans"
+        seriffont: "Bembo Std"
+---
+
+```{r}
+#| include: false
+source("_extensions/maxima/knitr-engine.R")
+```
+
+# Comparing gnuplot vs draw
+
+## Using gnuplot (default)
+
+```{maxima}
+#| plot: true
+#| plot_backend: "gnuplot"
+#| fig-cap: "Plot using gnuplot backend"
+#| label: fig-gnuplot
+plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi]);
+```
+
+## Using draw package
+
+```{maxima}
+#| plot: true
+#| plot_backend: "draw"
+#| fig-cap: "Plot using draw package"
+#| label: fig-draw
+draw2d(
+  color = blue,
+  explicit(sin(x), x, -2*%pi, 2*%pi),
+  color = red,
+  explicit(cos(x), x, -2*%pi, 2*%pi),
+  grid = true,
+  title = "Sine and Cosine"
+);
+```
+
+Draw package offers more control over styling!

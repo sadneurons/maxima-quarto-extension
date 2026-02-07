@@ -1,0 +1,15 @@
+name: maxima
+title: Maxima Extension
+author: Your Name
+version: 0.1.0
+quarto-required: ">=1.4.0"
+contributes:
+  filters:
+    - maxima.lua
+  formats:
+    common:
+      knitr:
+        opts_chunk:
+          comment: ""
+        knit_hooks:
+          source: !expr source("knitr-engine.R")

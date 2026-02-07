@@ -1,0 +1,58 @@
+---
+title: "Maxima Plotting Examples"
+format: pdf
+---
+
+```{r}
+#| include: false
+source("_extensions/maxima/knitr-engine.R")
+```
+
+# Maxima Plotting Examples
+
+## Simple 2D Plot
+
+```{maxima}
+#| plot: true
+#| plot_width: 800
+#| plot_height: 500
+plot2d(sin(x), [x, -10, 10]);
+```
+
+## Multiple Functions
+
+```{maxima}
+#| plot: true
+#| plot_width: 800
+#| plot_height: 500
+plot2d([sin(x), cos(x), tan(x)], [x, -2*%pi, 2*%pi], [y, -3, 3]);
+```
+
+## Parametric Plot
+
+```{maxima}
+#| plot: true
+#| plot_width: 800
+#| plot_height: 500
+plot2d([parametric, cos(t), sin(t), [t, 0, 2*%pi]]);
+```
+
+## Polynomial Plot
+
+```{maxima}
+#| plot: true
+#| plot_width: 1000
+#| plot_height: 600
+plot2d(x^3 - 3*x^2 + 2*x, [x, -2, 4]);
+```
+
+## Filled Plot
+
+```{maxima}
+#| plot: true
+#| plot_width: 800
+#| plot_height: 500
+plot2d(x^2, [x, -5, 5], [filled_func, true]);
+```
+
+Done!

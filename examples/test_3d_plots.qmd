@@ -1,0 +1,57 @@
+---
+title: "Maxima 3D Plotting Test"
+format: pdf
+---
+
+```{r}
+#| include: false
+source("_extensions/maxima/knitr-engine.R")
+```
+
+# 3D Plotting Tests
+
+## Simple 3D Surface
+
+```{maxima}
+#| plot: true
+#| plot_width: 900
+#| plot_height: 700
+#| fig-cap: "3D plot of sin(x)cos(y)"
+#| label: fig-sincos
+plot3d(sin(x)*cos(y), [x, -2*%pi, 2*%pi], [y, -2*%pi, 2*%pi]);
+```
+
+## Paraboloid
+
+```{maxima}
+#| plot: true
+#| plot_width: 900
+#| plot_height: 700
+#| fig-cap: "Paraboloid surface x² + y²"
+#| label: fig-paraboloid
+plot3d(x^2 + y^2, [x, -3, 3], [y, -3, 3]);
+```
+
+You can reference @fig-paraboloid in your text.
+
+## Parametric 3D
+
+```{maxima}
+#| plot: true
+#| plot_width: 900
+#| plot_height: 700
+#| fig-cap: "Parametric sphere"
+#| label: fig-sphere
+plot3d([cos(u)*cos(v), cos(u)*sin(v), sin(u)], [u, -%pi/2, %pi/2], [v, 0, 2*%pi]);
+```
+
+## Saddle Surface
+
+```{maxima}
+#| plot: true
+#| plot_width: 900
+#| plot_height: 700
+plot3d(x^2 - y^2, [x, -2, 2], [y, -2, 2]);
+```
+
+Done!
