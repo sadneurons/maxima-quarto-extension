@@ -1,13 +1,11 @@
 ---
 title: "Maxima Showcase"
 format:
-  html:
-    theme: cosmo
+  pdf:
     toc: true
-    code-fold: true
-    code-summary: "Show Maxima code"
     number-sections: true
-    fig-responsive: true
+execute:
+  echo: true
 ---
 
 ```{r}
@@ -26,7 +24,6 @@ This document is a single, end-to-end showcase of the Maxima knitr engine: symbo
 ```{maxima}
 #| tex: true
 #| results: asis
-#| echo: false
 integrate(x^4 * sin(x), x);
 ```
 
@@ -36,7 +33,6 @@ integrate(x^4 * sin(x), x);
 #| tex: true
 #| results: asis
 #| trigsimp: true
-#| echo: false
 sin(x)^2 + cos(x)^2;
 ```
 
@@ -47,7 +43,6 @@ sin(x)^2 + cos(x)^2;
 #| fpprec: 80
 #| tex: true
 #| results: asis
-#| echo: false
 sqrt(2) + %pi/7;
 ```
 
@@ -55,7 +50,6 @@ sqrt(2) + %pi/7;
 
 ```{maxima}
 #| session: true
-#| echo: false
 A: matrix([1,2,3],[4,5,6],[7,8,9]);
 B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
 ```
@@ -64,7 +58,6 @@ B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
 #| session: true
 #| tex: true
 #| results: asis
-#| echo: false
 A . B;
 ```
 
@@ -83,20 +76,22 @@ integrate(x^3 * exp(-x), x);
 
 ```{maxima}
 #| plot: true
-#| fig.dev: png
+#| label: fig-gnuplot-curves
+#| fig.dev: pdf
 #| fig-cap: "Sine and cosine with dense sampling"
 #| plot_width: 1200
 #| plot_height: 700
 #| out.width: "90%"
-plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20], [grid, true]);
+plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20]);
 ```
 
 ## Draw: Custom Colors and Layers
 
 ```{maxima}
 #| plot: true
+#| label: fig-draw-2d
 #| plot_backend: draw
-#| fig.dev: png
+#| fig.dev: pdf
 #| fig-cap: "Draw: layered curves with grid and title"
 #| plot_width: 1200
 #| plot_height: 700
@@ -120,7 +115,8 @@ draw2d(
 
 ```{maxima}
 #| plot: true
-#| fig.dev: png
+#| label: fig-gnuplot-surface
+#| fig.dev: pdf
 #| fig-cap: "Surface: sin(r)/r"
 #| plot_width: 1200
 #| plot_height: 800
@@ -132,8 +128,9 @@ plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 
 
 ```{maxima}
 #| plot: true
+#| label: fig-draw-torus
 #| plot_backend: draw
-#| fig.dev: png
+#| fig.dev: pdf
 #| fig-cap: "Draw3D: parametric torus"
 #| plot_width: 1200
 #| plot_height: 800
@@ -158,8 +155,9 @@ draw3d(
 
 ```{maxima}
 #| plot: true
+#| label: fig-draw-spiral
 #| plot_backend: draw
-#| fig.dev: png
+#| fig.dev: pdf
 #| fig-cap: "Draw3D: spiral sheet"
 #| plot_width: 1200
 #| plot_height: 800
@@ -179,8 +177,9 @@ draw3d(
 
 ```{maxima}
 #| plot: true
+#| label: fig-hold-1
 #| fig.show: hold
-#| fig.dev: png
+#| fig.dev: pdf
 #| fig-cap: "Hold: first"
 #| plot_width: 900
 #| plot_height: 600
@@ -189,8 +188,9 @@ plot2d(sin(x), [x, 0, 2*%pi]);
 
 ```{maxima}
 #| plot: true
+#| label: fig-hold-2
 #| fig.show: hold
-#| fig.dev: png
+#| fig.dev: pdf
 #| fig-cap: "Hold: second"
 #| plot_width: 900
 #| plot_height: 600
