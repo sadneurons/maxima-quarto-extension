@@ -40,6 +40,89 @@ integrate(x^2, x);
 ```
 ````
 
+## Architecture and Execution Model
+
+This engine is an R-based knitr engine that shells out to Maxima. At render time it:
+
+- Collects the chunk code and options.
+- Builds an ordered list of initialization commands (from `load`, `init`, sessions, and plotting).
+- Wraps or transforms the code for requested output formats.
+- Executes Maxima via `system2()` with `--very-quiet`.
+- Post-processes the output (LaTeX extraction, filtering, plot embedding).
+
+**Input normalization**
+
+- Semicolons are enforced so Maxima parses the batch string cleanly.
+- For `format: "tex"` or `tex: true`, code is wrapped in `tex(...)` unless it is an assignment or multi-line block.
+- Only one simplification wrapper is applied, in priority order: `simplify`, `ratsimp`, `factor`, `expand`, `trigsimp`, `radcan`, `fullratsimp`, `trigreduce`.
+
+**Output processing**
+
+- LaTeX output is extracted as whole `$$ ... $$` blocks so multi-line matrices render correctly.
+- `results: asis` returns output directly to Pandoc.
+- `results: markup` (default) wraps output in fenced code blocks via knitr.
+- Warnings and messages are filtered when `warning: false` or `message: false`.
+
+## Plotting Internals
+
+Plot handling is designed to match knitr conventions while supporting Maxima backends.
+
+**Backends**
+
+- `plot_backend: "gnuplot"` (default) uses Maxima’s gnuplot output.
+- `plot_backend: "draw"` uses the Maxima `draw` package and injects `terminal=...`, `file_name=...`, and `dimensions=[w,h]` unless you provided them.
+
+**Devices and terminals**
+
+- `fig.dev: "png"` uses `gnuplot` terminal `png`.
+- `fig.dev: "pdf"` uses `pdfcairo` and converts pixel dimensions into centimeters.
+- `fig.dev: "svg"` uses `svg`.
+- `fig.dev: "eps"` uses `postscript eps`.
+
+**Figure paths**
+
+- If `fig.path` is set, output paths are based on that prefix.
+- Otherwise the default is `<input>_files/figure-pdf/`.
+- Paths are resolved relative to the input file directory.
+- If the target directory is not writable, the engine falls back to `/tmp/maxima-figs/...`.
+
+**Figure output**
+
+- Markdown is generated as `![caption](path){width="..." #label}` so Pandoc/Quarto can place and size figures correctly.
+- `fig.show: "hold"` defers all plot output to the end of the chunk.
+- `fig.show: "hide"` runs the plot code but returns no figure output.
+
+## Sessions and State
+
+Sessions are persisted across chunks with `session: true` (or a named session).
+
+- State is stored in `/tmp/maxima_session_<session>_<hash>.mac`.
+- Session files are loaded before each chunk and saved after execution.
+- `cache: true` is disabled when `session` is enabled to avoid state inconsistencies.
+
+Clean up session files at the end of a document:
+
+```r
+cleanup_maxima_sessions()
+```
+
+## Caching
+
+When `cache: true` is set:
+
+- A cache key is computed from code and options.
+- Results are stored in `cache/` (or `cache.path` if provided).
+- Plot files are copied into a cache subdirectory and restored on cache hits.
+
+Caching is skipped if sessions are enabled.
+
+## File Layout
+
+- `_extensions/maxima/knitr-engine.R` contains the engine implementation.
+- `_extensions/maxima/maxima.lua` wires the extension into Quarto.
+- `examples/maxima_showcase.qmd` is the canonical showcase and test document.
+- `tests/knitr_engine_regression.R` and `tests/run_regressions.sh` validate knitr parity.
+
 ## Features & Options
 
 ## Option Reference
