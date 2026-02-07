@@ -1,0 +1,202 @@
+---
+title: "Maxima Showcase"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true
+    code-summary: "Show Maxima code"
+    number-sections: true
+    fig-responsive: true
+---
+
+```{r}
+#| include: false
+source("../_extensions/maxima/knitr-engine.R")
+```
+
+# Overview
+
+This document is a single, end-to-end showcase of the Maxima knitr engine: symbolic math, precision control, session persistence, code generation, and polished 2D/3D visuals.
+
+# Symbolic Core
+
+## Exact Calculus
+
+```{maxima}
+#| tex: true
+#| results: asis
+#| echo: false
+integrate(x^4 * sin(x), x);
+```
+
+## Simplification Pipeline
+
+```{maxima}
+#| tex: true
+#| results: asis
+#| trigsimp: true
+#| echo: false
+sin(x)^2 + cos(x)^2;
+```
+
+# Precision Control
+
+```{maxima}
+#| bfloat: true
+#| fpprec: 80
+#| tex: true
+#| results: asis
+#| echo: false
+sqrt(2) + %pi/7;
+```
+
+# Sessions and Linear Algebra
+
+```{maxima}
+#| session: true
+#| echo: false
+A: matrix([1,2,3],[4,5,6],[7,8,9]);
+B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
+```
+
+```{maxima}
+#| session: true
+#| tex: true
+#| results: asis
+#| echo: false
+A . B;
+```
+
+# Code Generation
+
+```{maxima}
+#| format: "c"
+#| results: markup
+#| echo: true
+integrate(x^3 * exp(-x), x);
+```
+
+# 2D Plot Gallery
+
+## Gnuplot: Curves and Styling
+
+```{maxima}
+#| plot: true
+#| fig.dev: png
+#| fig-cap: "Sine and cosine with dense sampling"
+#| plot_width: 1200
+#| plot_height: 700
+#| out.width: "90%"
+plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20], [grid, true]);
+```
+
+## Draw: Custom Colors and Layers
+
+```{maxima}
+#| plot: true
+#| plot_backend: draw
+#| fig.dev: png
+#| fig-cap: "Draw: layered curves with grid and title"
+#| plot_width: 1200
+#| plot_height: 700
+#| out.width: "90%"
+load("draw");
+draw2d(
+  title = "Harmonics",
+  grid = true,
+  color = red,
+  explicit(sin(x), x, -2*%pi, 2*%pi),
+  color = blue,
+  explicit(sin(2*x)/2, x, -2*%pi, 2*%pi),
+  color = dark_green,
+  explicit(sin(3*x)/3, x, -2*%pi, 2*%pi)
+);
+```
+
+# 3D Plot Gallery
+
+## Gnuplot: Surface Plot
+
+```{maxima}
+#| plot: true
+#| fig.dev: png
+#| fig-cap: "Surface: sin(r)/r"
+#| plot_width: 1200
+#| plot_height: 800
+#| out.width: "90%"
+plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 50]);
+```
+
+## Draw3D: Parametric Torus
+
+```{maxima}
+#| plot: true
+#| plot_backend: draw
+#| fig.dev: png
+#| fig-cap: "Draw3D: parametric torus"
+#| plot_width: 1200
+#| plot_height: 800
+#| out.width: "90%"
+load("draw");
+R: 3; r: 1;
+draw3d(
+  title = "Torus",
+  surface_hide = true,
+  color = cyan,
+  parametric_surface(
+    (R + r*cos(v))*cos(u),
+    (R + r*cos(v))*sin(u),
+    r*sin(v),
+    u, 0, 2*%pi,
+    v, 0, 2*%pi
+  )
+);
+```
+
+## Draw3D: Spiral Sheet
+
+```{maxima}
+#| plot: true
+#| plot_backend: draw
+#| fig.dev: png
+#| fig-cap: "Draw3D: spiral sheet"
+#| plot_width: 1200
+#| plot_height: 800
+#| out.width: "90%"
+load("draw");
+draw3d(
+  title = "Spiral Sheet",
+  surface_hide = true,
+  color = orange,
+  explicit(z = x*sin(y), x, -4, 4, y, -4, 4)
+);
+```
+
+# Output Control Showcase
+
+## Hold Figures Until End
+
+```{maxima}
+#| plot: true
+#| fig.show: hold
+#| fig.dev: png
+#| fig-cap: "Hold: first"
+#| plot_width: 900
+#| plot_height: 600
+plot2d(sin(x), [x, 0, 2*%pi]);
+```
+
+```{maxima}
+#| plot: true
+#| fig.show: hold
+#| fig.dev: png
+#| fig-cap: "Hold: second"
+#| plot_width: 900
+#| plot_height: 600
+plot2d(cos(x), [x, 0, 2*%pi]);
+```
+
+# Finish
+
+This single document is intended as the canonical example for release documentation and screenshots.
