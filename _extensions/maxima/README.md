@@ -89,6 +89,13 @@ All supported chunk options in one place:
 - `tex` - LaTeX output
 - `warning` - Show/hide warnings
 
+## Known Limitations
+
+- `cache` is disabled when `session` is enabled (stateful sessions are not cached).
+- `results: hold` does not provide per-expression interleaving; Maxima chunks execute as a batch.
+- `fig.keep` and `fig.ext` are not implemented.
+- Per-statement auto-print suppression (like Python’s `;`) is not available for multi-line Maxima code.
+
 ### 1. Output Formats
 
 Control how Maxima outputs results:
