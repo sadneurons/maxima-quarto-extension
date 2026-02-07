@@ -17,6 +17,20 @@ source("../_extensions/maxima/knitr-engine.R")
 
 This document is a single, end-to-end showcase of the Maxima knitr engine: symbolic math, precision control, session persistence, code generation, and polished 2D/3D visuals.
 
+## Build Notes
+
+Prerequisites:
+
+- Maxima on `PATH`
+- `gnuplot` installed (for default plotting backend)
+- LaTeX engine for PDF output
+
+If you hit `luaotfload` cache errors while rendering, use:
+
+```bash
+TEXMFVAR=/tmp/texmf-var TEXMFCACHE=/tmp/texmf-cache quarto render maxima_showcase.qmd --to pdf
+```
+
 # Symbolic Core
 
 ## Exact Calculus
