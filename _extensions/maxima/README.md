@@ -42,6 +42,53 @@ integrate(x^2, x);
 
 ## Features & Options
 
+## Option Reference
+
+All supported chunk options in one place:
+
+- `bfloat` - High-precision floating point output
+- `cache` - Enable/disable caching
+- `cache.path` - Cache directory prefix
+- `dev` - Alias for `fig.dev`
+- `echo` - Show/hide code
+- `engine.env` - Environment variables for the Maxima process
+- `engine.opts` - Extra CLI arguments passed to Maxima
+- `engine.path` - Path to Maxima executable
+- `error` - Continue on errors (`true`) or stop (`false`, default)
+- `eval` - Execute/skip execution
+- `fig.align` - Figure alignment (`left`, `center`, `right`)
+- `fig.cap` - Figure caption (alt syntax)
+- `fig-cap` - Figure caption
+- `fig.dev` - Figure device (`png`, `pdf`, `svg`, `eps`)
+- `fig.path` - Figure output path prefix
+- `fig.show` - Figure display (`asis`, `hold`, `hide`)
+- `fig.width` - Output width multiplier (used for display)
+- `format` - Output format (`tex`, `mathml`, `fortran`, `c`, `ascii`, `string`)
+- `fpprec` - Precision for `bfloat`
+- `include` - Run but include neither code nor output
+- `init` - Initialization commands
+- `label` - Chunk label used for figure filenames and IDs
+- `load` - Load Maxima packages/files
+- `message` - Show/hide informational messages
+- `out.height` - Output figure height
+- `out.width` - Output figure width
+- `plot` - Enable plot capture
+- `plot_backend` - Plot backend (`gnuplot`, `draw`)
+- `plot_height` - Plot height in pixels
+- `plot_width` - Plot width in pixels
+- `results` - Output handling (`asis`, `markup`, `hide`, `hold`)
+- `session` - Persist Maxima state across chunks
+- `simplify` - Simplify output
+- `ratsimp` - Rational simplification
+- `factor` - Factor expressions
+- `expand` - Expand expressions
+- `trigsimp` - Trigonometric simplification
+- `radcan` - Radical canonical form
+- `fullratsimp` - Full rational simplification
+- `trigreduce` - Trig reduction
+- `tex` - LaTeX output
+- `warning` - Show/hide warnings
+
 ### 1. Output Formats
 
 Control how Maxima outputs results:
