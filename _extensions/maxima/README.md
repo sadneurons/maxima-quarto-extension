@@ -206,6 +206,12 @@ Generate and embed plots with full control:
 - `fig.dev: "eps"` - EPS format (PostScript)
 - `dev: "png"` - Alternative to fig.dev
 
+**Figure Display and Paths:**
+- `fig.show: "asis"` - Display figures inline (default)
+- `fig.show: "hold"` - Defer all figures until end of chunk
+- `fig.show: "hide"` - Run plot code but suppress figure output
+- `fig.path: "path/"` - Prefix output figure paths (directory must be writable)
+
 **Figure Sizing and Alignment:**
 - `fig.align: "center"` - Alignment: "left", "center", or "right"
 - `out.width: "80%"` - Output width (percentage or pixels)
@@ -283,12 +289,28 @@ The `draw` package offers more advanced features:
 
 ### 10. Standard Chunk Options
 
-All standard knitr options work:
+Core knitr options supported by this engine:
 
-- `echo: true/false` - Show/hide code
+- `echo: true/false` - Show/hide code in output
 - `eval: true/false` - Execute/skip execution
-- `cache: true` - Cache results
-- `include: false` - Run but don't include in output
+- `include: false` - Run but include neither code nor output
+- `error: true/false` - Continue on errors or stop rendering (default: stop)
+- `warning: true/false` - Show/hide warnings
+- `message: true/false` - Show/hide informational messages
+- `results: "asis"|"markup"|"hide"|"hold"` - Output formatting
+
+**Cache options:**
+- `cache: true/false` - Enable/disable caching
+- `cache.path: "cache/"` - Cache directory prefix (default: `cache/`)
+
+Caching notes:
+- Cache is disabled when `session` is enabled.
+- Cached runs restore output and plot files into the current figure path.
+
+**Engine options (knitr standard):**
+- `engine.path: "..."` - Override the Maxima executable path
+- `engine.opts: ["--flag"]` - Extra CLI arguments passed to Maxima
+- `engine.env:` - Environment variables passed to the Maxima process
 
 ## Complete Examples
 
@@ -379,6 +401,11 @@ The extension provides helpful error messages:
 - Undefined symbols are clearly identified
 - All errors include the original code for debugging
 
+Error behavior:
+
+- Default (`error: false`): stop rendering on Maxima errors
+- `error: true`: render the error text and continue
+
 ## Session Cleanup
 
 To clean up temporary session files at the end of your document:
@@ -398,7 +425,7 @@ cleanup_maxima_sessions()
 Run the regression suite before release:
 
 ```bash
-cd MST125/typst_tester
+cd /home/tenebris/maxima-quarto-extension
 ./tests/run_regressions.sh
 ```
 
@@ -407,7 +434,9 @@ The suite validates critical knitr parity behavior:
 - `eval: false` skips execution
 - `error` behavior matches knitr expectations
 - `engine.path`, `engine.opts`, and `engine.env` are honored
-- `fig.show: hide` suppresses figure output
+- `include: false` suppresses code and output
+- `cache: true` skips re-execution on subsequent runs
+- `fig.show` controls figure display timing
 - `fig.path` controls output figure location
 - Session state sharing and multi-line TeX matrix output remain stable
 
