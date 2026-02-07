@@ -36,6 +36,14 @@ TEXMFVAR=/tmp/texmf-var TEXMFCACHE=/tmp/texmf-cache quarto render maxima_showcas
 
 ## Exact Calculus
 
+Chunk with options:
+
+\`\`\`{maxima}
+#| tex: true
+#| results: asis
+integrate(x^4 * sin(x), x);
+\`\`\`
+
 ```{maxima}
 #| tex: true
 #| results: asis
@@ -43,6 +51,15 @@ integrate(x^4 * sin(x), x);
 ```
 
 ## Simplification Pipeline
+
+Chunk with options:
+
+\`\`\`{maxima}
+#| tex: true
+#| results: asis
+#| trigsimp: true
+sin(x)^2 + cos(x)^2;
+\`\`\`
 
 ```{maxima}
 #| tex: true
@@ -52,6 +69,16 @@ sin(x)^2 + cos(x)^2;
 ```
 
 # Precision Control
+
+Chunk with options:
+
+\`\`\`{maxima}
+#| bfloat: true
+#| fpprec: 80
+#| tex: true
+#| results: asis
+sqrt(2) + %pi/7;
+\`\`\`
 
 ```{maxima}
 #| bfloat: true
@@ -63,11 +90,28 @@ sqrt(2) + %pi/7;
 
 # Sessions and Linear Algebra
 
+Chunk with options:
+
+\`\`\`{maxima}
+#| session: true
+A: matrix([1,2,3],[4,5,6],[7,8,9]);
+B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
+\`\`\`
+
 ```{maxima}
 #| session: true
 A: matrix([1,2,3],[4,5,6],[7,8,9]);
 B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
 ```
+
+Chunk with options:
+
+\`\`\`{maxima}
+#| session: true
+#| tex: true
+#| results: asis
+A . B;
+\`\`\`
 
 ```{maxima}
 #| session: true
@@ -77,6 +121,14 @@ A . B;
 ```
 
 # Code Generation
+
+Chunk with options:
+
+\`\`\`{maxima}
+#| format: "c"
+#| results: markup
+integrate(x^3 * exp(-x), x);
+\`\`\`
 
 ```{maxima}
 #| format: "c"
@@ -88,6 +140,19 @@ integrate(x^3 * exp(-x), x);
 # 2D Plot Gallery
 
 ## Gnuplot: Curves and Styling
+
+Chunk with options:
+
+\`\`\`{maxima}
+#| plot: true
+#| label: fig-gnuplot-curves
+#| fig.dev: pdf
+#| fig-cap: "Sine and cosine with dense sampling"
+#| plot_width: 1200
+#| plot_height: 700
+#| out.width: "90%"
+plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20]);
+\`\`\`
 
 ```{maxima}
 #| plot: true
@@ -101,6 +166,30 @@ plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20]);
 ```
 
 ## Draw: Custom Colors and Layers
+
+Chunk with options:
+
+\`\`\`{maxima}
+#| plot: true
+#| label: fig-draw-2d
+#| plot_backend: draw
+#| fig.dev: pdf
+#| fig-cap: "Draw: layered curves with grid and title"
+#| plot_width: 1200
+#| plot_height: 700
+#| out.width: "90%"
+load("draw");
+draw2d(
+  title = "Harmonics",
+  grid = true,
+  color = red,
+  explicit(sin(x), x, -2*%pi, 2*%pi),
+  color = blue,
+  explicit(sin(2*x)/2, x, -2*%pi, 2*%pi),
+  color = dark_green,
+  explicit(sin(3*x)/3, x, -2*%pi, 2*%pi)
+);
+\`\`\`
 
 ```{maxima}
 #| plot: true
@@ -128,6 +217,19 @@ draw2d(
 
 ## Gnuplot: Surface Plot
 
+Chunk with options:
+
+\`\`\`{maxima}
+#| plot: true
+#| label: fig-gnuplot-surface
+#| fig.dev: pdf
+#| fig-cap: "Surface: sin(r)/r"
+#| plot_width: 1200
+#| plot_height: 800
+#| out.width: "90%"
+plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 50]);
+\`\`\`
+
 ```{maxima}
 #| plot: true
 #| label: fig-gnuplot-surface
@@ -140,6 +242,33 @@ plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 
 ```
 
 ## Draw3D: Parametric Torus
+
+Chunk with options:
+
+\`\`\`{maxima}
+#| plot: true
+#| label: fig-draw-torus
+#| plot_backend: draw
+#| fig.dev: pdf
+#| fig-cap: "Draw3D: parametric torus"
+#| plot_width: 1200
+#| plot_height: 800
+#| out.width: "90%"
+load("draw");
+R: 3; r: 1;
+draw3d(
+  title = "Torus",
+  surface_hide = true,
+  color = cyan,
+  parametric_surface(
+    (R + r*cos(v))*cos(u),
+    (R + r*cos(v))*sin(u),
+    r*sin(v),
+    u, 0, 2*%pi,
+    v, 0, 2*%pi
+  )
+);
+\`\`\`
 
 ```{maxima}
 #| plot: true
@@ -168,6 +297,26 @@ draw3d(
 
 ## Draw3D: Spiral Sheet
 
+Chunk with options:
+
+\`\`\`{maxima}
+#| plot: true
+#| label: fig-draw-spiral
+#| plot_backend: draw
+#| fig.dev: pdf
+#| fig-cap: "Draw3D: spiral sheet"
+#| plot_width: 1200
+#| plot_height: 800
+#| out.width: "90%"
+load("draw");
+draw3d(
+  title = "Spiral Sheet",
+  surface_hide = true,
+  color = orange,
+  explicit(z = x*sin(y), x, -4, 4, y, -4, 4)
+);
+\`\`\`
+
 ```{maxima}
 #| plot: true
 #| label: fig-draw-spiral
@@ -190,6 +339,19 @@ draw3d(
 
 ## Hold Figures Until End
 
+Chunk with options:
+
+\`\`\`{maxima}
+#| plot: true
+#| label: fig-hold-1
+#| fig.show: hold
+#| fig.dev: pdf
+#| fig-cap: "Hold: first"
+#| plot_width: 900
+#| plot_height: 600
+plot2d(sin(x), [x, 0, 2*%pi]);
+\`\`\`
+
 ```{maxima}
 #| plot: true
 #| label: fig-hold-1
@@ -200,6 +362,19 @@ draw3d(
 #| plot_height: 600
 plot2d(sin(x), [x, 0, 2*%pi]);
 ```
+
+Chunk with options:
+
+\`\`\`{maxima}
+#| plot: true
+#| label: fig-hold-2
+#| fig.show: hold
+#| fig.dev: pdf
+#| fig-cap: "Hold: second"
+#| plot_width: 900
+#| plot_height: 600
+plot2d(cos(x), [x, 0, 2*%pi]);
+\`\`\`
 
 ```{maxima}
 #| plot: true
