@@ -9,6 +9,8 @@ execute:
 header-includes:
   - \usepackage{listings}
   - \usepackage{xcolor}
+  - \usepackage{tcolorbox}
+  - \newtcolorbox{qmdchunk}{colback=gray!10,colframe=gray!50,boxrule=0.5pt,arc=2pt}
   - \lstdefinelanguage{maxima}{
       keywords={load,draw2d,draw3d,plot2d,plot3d,integrate,diff,solve,expand,factor,simplify,trigsimp,radcan,fullratsimp,trigreduce,tex,mathml},
       sensitive=true,
@@ -23,7 +25,8 @@ header-includes:
       stringstyle=\color{teal},
       showstringspaces=false,
       breaklines=true,
-      frame=single
+      frame=single,
+      backgroundcolor=\color{gray!10}
     }
 ---
 
@@ -58,13 +61,15 @@ TEXMFVAR=/tmp/texmf-var TEXMFCACHE=/tmp/texmf-cache quarto render maxima_showcas
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| tex: true
 #| results: asis
 integrate(x^4 * sin(x), x);
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -78,14 +83,16 @@ integrate(x^4 * sin(x), x);
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| tex: true
 #| results: asis
 #| trigsimp: true
 sin(x)^2 + cos(x)^2;
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -100,7 +107,8 @@ sin(x)^2 + cos(x)^2;
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| bfloat: true
 #| fpprec: 80
@@ -108,7 +116,8 @@ Chunk with options:
 #| results: asis
 sqrt(2) + %pi/7;
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -124,14 +133,17 @@ sqrt(2) + %pi/7;
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| session: true
-#| results: hide
+#| results: show
+#| tex: true
 A: matrix([1,2,3],[4,5,6],[7,8,9]);
 B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -144,14 +156,16 @@ B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| session: true
 #| tex: true
 #| results: asis
 A . B;
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -166,13 +180,15 @@ A . B;
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| format: "c"
 #| results: markup
 integrate(x^3 * exp(-x), x);
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -189,7 +205,8 @@ integrate(x^3 * exp(-x), x);
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-gnuplot-curves
@@ -200,7 +217,8 @@ Chunk with options:
 #| out.width: "90%"
 plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20]);
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -219,7 +237,8 @@ plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20]);
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-draw-2d
@@ -241,7 +260,8 @@ draw2d(
   explicit(sin(3*x)/3, x, -2*%pi, 2*%pi)
 );
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -273,7 +293,8 @@ draw2d(
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-gnuplot-surface
@@ -284,7 +305,8 @@ Chunk with options:
 #| out.width: "90%"
 plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 50]);
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -303,7 +325,8 @@ plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-draw-torus
@@ -328,7 +351,8 @@ draw3d(
   )
 );
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -361,7 +385,8 @@ draw3d(
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-draw-spiral
@@ -379,7 +404,8 @@ draw3d(
   explicit(z = x*sin(y), x, -4, 4, y, -4, 4)
 );
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -407,7 +433,8 @@ draw3d(
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-hold-1
@@ -418,7 +445,8 @@ Chunk with options:
 #| plot_height: 600
 plot2d(sin(x), [x, 0, 2*%pi]);
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
@@ -435,7 +463,8 @@ plot2d(sin(x), [x, 0, 2*%pi]);
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
 \begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-hold-2
@@ -446,7 +475,8 @@ Chunk with options:
 #| plot_height: 600
 plot2d(cos(x), [x, 0, 2*%pi]);
 \end{lstlisting}
-\noindent\texttt{\string`\string`\string`}\\
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
 ```
 
 ```{maxima}
