@@ -11,7 +11,7 @@ format:
 
 ```{r}
 #| include: false
-source("_extensions/maxima/knitr-engine.R")
+source("../_extensions/maxima/knitr-engine.R")
 
 # Helper function for inline Maxima
 maxima_inline <- function(code) {

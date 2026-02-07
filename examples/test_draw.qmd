@@ -9,7 +9,7 @@ format:
 
 ```{r}
 #| include: false
-source("_extensions/maxima/knitr-engine.R")
+source("../_extensions/maxima/knitr-engine.R")
 ```
 
 # Comparing gnuplot vs draw

@@ -5,7 +5,7 @@ format: pdf
 
 ```{r}
 #| include: false
-source("_extensions/maxima/knitr-engine.R")
+source("../_extensions/maxima/knitr-engine.R")
 ```
 
 # Enhanced Feature Testing
