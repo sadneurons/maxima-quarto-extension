@@ -6,6 +6,25 @@ format:
     number-sections: true
 execute:
   echo: true
+header-includes:
+  - \usepackage{listings}
+  - \usepackage{xcolor}
+  - \lstdefinelanguage{maxima}{
+      keywords={load,draw2d,draw3d,plot2d,plot3d,integrate,diff,solve,expand,factor,simplify,trigsimp,radcan,fullratsimp,trigreduce,tex,mathml},
+      sensitive=true,
+      morecomment=[l]{/*},
+      morecomment=[l]{//},
+      morestring=[b]{"}
+    }
+  - \lstset{
+      basicstyle=\ttfamily\small,
+      keywordstyle=\color{blue},
+      commentstyle=\color{gray},
+      stringstyle=\color{teal},
+      showstringspaces=false,
+      breaklines=true,
+      frame=single
+    }
 ---
 
 ```{r}
@@ -39,13 +58,13 @@ TEXMFVAR=/tmp/texmf-var TEXMFCACHE=/tmp/texmf-cache quarto render maxima_showcas
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| tex: true
 #| results: asis
 integrate(x^4 * sin(x), x);
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -59,14 +78,14 @@ integrate(x^4 * sin(x), x);
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| tex: true
 #| results: asis
 #| trigsimp: true
 sin(x)^2 + cos(x)^2;
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -81,15 +100,15 @@ sin(x)^2 + cos(x)^2;
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| bfloat: true
 #| fpprec: 80
 #| tex: true
 #| results: asis
 sqrt(2) + %pi/7;
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -105,17 +124,19 @@ sqrt(2) + %pi/7;
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| session: true
+#| results: hide
 A: matrix([1,2,3],[4,5,6],[7,8,9]);
 B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
 #| session: true
+#| results: hide
 A: matrix([1,2,3],[4,5,6],[7,8,9]);
 B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
 ```
@@ -123,14 +144,14 @@ B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| session: true
 #| tex: true
 #| results: asis
 A . B;
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -145,13 +166,13 @@ A . B;
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| format: "c"
 #| results: markup
 integrate(x^3 * exp(-x), x);
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -168,8 +189,8 @@ integrate(x^3 * exp(-x), x);
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-gnuplot-curves
 #| fig.dev: pdf
@@ -178,8 +199,8 @@ Chunk with options:
 #| plot_height: 700
 #| out.width: "90%"
 plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20]);
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -198,8 +219,8 @@ plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20]);
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-draw-2d
 #| plot_backend: draw
@@ -219,8 +240,8 @@ draw2d(
   color = dark_green,
   explicit(sin(3*x)/3, x, -2*%pi, 2*%pi)
 );
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -252,8 +273,8 @@ draw2d(
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-gnuplot-surface
 #| fig.dev: pdf
@@ -262,8 +283,8 @@ Chunk with options:
 #| plot_height: 800
 #| out.width: "90%"
 plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 50]);
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -282,8 +303,8 @@ plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-draw-torus
 #| plot_backend: draw
@@ -306,8 +327,8 @@ draw3d(
     v, 0, 2*%pi
   )
 );
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -340,8 +361,8 @@ draw3d(
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-draw-spiral
 #| plot_backend: draw
@@ -357,8 +378,8 @@ draw3d(
   color = orange,
   explicit(z = x*sin(y), x, -4, 4, y, -4, 4)
 );
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -386,8 +407,8 @@ draw3d(
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-hold-1
 #| fig.show: hold
@@ -396,8 +417,8 @@ Chunk with options:
 #| plot_width: 900
 #| plot_height: 600
 plot2d(sin(x), [x, 0, 2*%pi]);
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
@@ -414,8 +435,8 @@ plot2d(sin(x), [x, 0, 2*%pi]);
 Chunk with options:
 
 ```{=latex}
-\noindent\texttt{\string`\string`\string`\{maxima\}}\
-\begin{verbatim}
+\noindent\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{lstlisting}[language=maxima]
 #| plot: true
 #| label: fig-hold-2
 #| fig.show: hold
@@ -424,8 +445,8 @@ Chunk with options:
 #| plot_width: 900
 #| plot_height: 600
 plot2d(cos(x), [x, 0, 2*%pi]);
-\end{verbatim}
-\noindent\texttt{\string`\string`\string`}\
+\end{lstlisting}
+\noindent\texttt{\string`\string`\string`}\\
 ```
 
 ```{maxima}
