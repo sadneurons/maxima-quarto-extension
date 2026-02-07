@@ -15,3 +15,5 @@
 # Temp and editor
 *.swp
 .DS_Store
+
+/.luarc.json
