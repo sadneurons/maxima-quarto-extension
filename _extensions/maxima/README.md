@@ -195,22 +195,25 @@ Generate and embed plots with full control:
 
 **Basic Plotting Options:**
 - `plot: true` - Enable plotting
-- `plot_width: 800` - Set plot width (pixels)
-- `plot_height: 600` - Set plot height (pixels)
-- `plot_backend: "gnuplot"` - Choose backend: "gnuplot" (default) or "draw"
+- `plot_width: 800` - Plot width in pixels for PNG/SVG; used to derive size for PDF/EPS
+- `plot_height: 600` - Plot height in pixels for PNG/SVG; used to derive size for PDF/EPS
+- `plot_backend: "gnuplot"` - Backend: `"gnuplot"` (default) or `"draw"`
 
 **Figure Format Options:**
 - `fig.dev: "png"` - PNG format (default)
 - `fig.dev: "pdf"` - PDF format (vector graphics)
 - `fig.dev: "svg"` - SVG format (web-friendly vector)
 - `fig.dev: "eps"` - EPS format (PostScript)
-- `dev: "png"` - Alternative to fig.dev
+- `dev: "png"` - Alternative to `fig.dev`
 
 **Figure Display and Paths:**
 - `fig.show: "asis"` - Display figures inline (default)
 - `fig.show: "hold"` - Defer all figures until end of chunk
 - `fig.show: "hide"` - Run plot code but suppress figure output
 - `fig.path: "path/"` - Prefix output figure paths (directory must be writable)
+
+Notes:
+- When `fig.path` is not set, output goes to `*_files/figure-pdf/` based on the input filename.
 
 **Figure Sizing and Alignment:**
 - `fig.align: "center"` - Alignment: "left", "center", or "right"
@@ -221,7 +224,7 @@ Generate and embed plots with full control:
 **Figure Captions and Labels:**
 - `fig-cap: "My Caption"` - Figure caption
 - `fig.cap: "My Caption"` - Alternative caption syntax
-- `label: fig-myplot` - Cross-reference label (auto-adds "fig-" prefix)
+- `label: "myplot"` - Figure identifier (used as-is in the output)
 
 **Example with gnuplot (PNG):**
 ````markdown
@@ -311,6 +314,10 @@ Caching notes:
 - `engine.path: "..."` - Override the Maxima executable path
 - `engine.opts: ["--flag"]` - Extra CLI arguments passed to Maxima
 - `engine.env:` - Environment variables passed to the Maxima process
+
+**Other options used by the engine:**
+- `label` - Chunk label, used for plot filenames and figure identifiers
+- `chunk.index` - Internal knitr index used when no label is provided
 
 ## Complete Examples
 
