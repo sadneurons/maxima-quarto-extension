@@ -199,7 +199,37 @@ if (file.exists(wrapper_args_log)) {
 }
 if (file.exists(wrapper_env_log)) {
   env_text <- paste(readLines(wrapper_env_log, warn = FALSE), collapse = "\n")
-  record_assert(grepl("TEST_MAXIMA_ENV=hello-release", env_text, fixed = TRUE), "engine.env should be passed to subprocess")
+record_assert(grepl("TEST_MAXIMA_ENV=hello-release", env_text, fixed = TRUE), "engine.env should be passed to subprocess")
+}
+
+# 4b) include:false should suppress code and output.
+case_include_false <- paste(
+  "---",
+  "title: include false",
+  "format: gfm",
+  "---",
+  "",
+  chunk_setup,
+  "",
+  "```{maxima}",
+  "#| include: false",
+  "#| echo: true",
+  "1+1;",
+  "```",
+  "",
+  "After include false",
+  sep = "\n"
+)
+
+r <- render_qmd("case_include_false", case_include_false)
+record_assert(r$status == 0, "include:false render should succeed")
+if (file.exists(r$md)) {
+  md <- paste(readLines(r$md, warn = FALSE), collapse = "\n")
+  record_assert(!grepl("1\\+1", md), "include:false should suppress code")
+  record_assert(!grepl("\\$\\$2\\$\\$", md), "include:false should suppress output")
+  record_assert(grepl("After include false", md, fixed = TRUE), "include:false should not suppress surrounding content")
+} else {
+  record_assert(FALSE, "include:false markdown output should exist")
 }
 
 # 5) fig.show: hide should suppress image output.
@@ -264,6 +294,51 @@ fig_files <- if (dir.exists(myfigs_dir)) {
   character(0)
 }
 record_assert(length(fig_files) > 0, "fig.path should create figure files under custom directory")
+
+# 6b) cache:true should skip execution on second render.
+cache_dir <- file.path(work_dir, "cache")
+cache_counter <- file.path(work_dir, "cache-counter.txt")
+cache_wrapper <- file.path(work_dir, "cache-wrapper.sh")
+writeLines(c(
+  "#!/usr/bin/env bash",
+  "count=0",
+  "if [ -f \"${MAXIMA_CACHE_COUNTER}\" ]; then",
+  "  count=$(cat \"${MAXIMA_CACHE_COUNTER}\")",
+  "fi",
+  "count=$((count+1))",
+  "echo \"$count\" > \"${MAXIMA_CACHE_COUNTER}\"",
+  "exec maxima \"$@\""
+), cache_wrapper, useBytes = TRUE)
+Sys.chmod(cache_wrapper, mode = "0755")
+
+case_cache <- paste(
+  "---",
+  "title: cache test",
+  "format: gfm",
+  "---",
+  "",
+  chunk_setup,
+  "",
+  "```{maxima}",
+  "#| cache: true",
+  sprintf("#| cache.path: \"%s/\"", cache_dir),
+  sprintf("#| engine.path: \"%s\"", cache_wrapper),
+  "#| engine.env:",
+  sprintf("#|   MAXIMA_CACHE_COUNTER: \"%s\"", cache_counter),
+  "1+1;",
+  "```",
+  sep = "\n"
+)
+
+r <- render_qmd("case_cache", case_cache)
+record_assert(r$status == 0, "cache:true first render should succeed")
+count1 <- if (file.exists(cache_counter)) as.integer(readLines(cache_counter, warn = FALSE)[1]) else NA_integer_
+record_assert(isTRUE(count1 == 1), "cache:true should execute on first render")
+
+r <- render_qmd("case_cache", case_cache)
+record_assert(r$status == 0, "cache:true second render should succeed")
+count2 <- if (file.exists(cache_counter)) as.integer(readLines(cache_counter, warn = FALSE)[1]) else NA_integer_
+record_assert(isTRUE(count2 == 1), "cache:true should skip execution on second render")
 
 # 7) Session sharing with TeX matrix output should remain intact.
 case_session_tex <- paste(

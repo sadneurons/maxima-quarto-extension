@@ -86,6 +86,28 @@ extract_tex_blocks <- function(lines) {
   blocks
 }
 
+# Build a simple cache key for the chunk based on code and options.
+build_cache_key <- function(code, init_commands, options) {
+  # Avoid caching when sessions are used (stateful execution).
+  if (!is.null(options$session) && options$session != FALSE) {
+    return(NULL)
+  }
+  cache_opts <- options
+  cache_opts$code <- NULL
+  cache_opts$engine <- NULL
+  digest::digest(
+    list(code = code, init = init_commands, options = cache_opts, engine = "maxima"),
+    algo = "md5"
+  )
+}
+
+get_cache_root <- function(options) {
+  if (!is.null(options$cache.path)) {
+    return(as.character(options$cache.path)[1])
+  }
+  "cache/"
+}
+
 # Resolve engine.* options that may be provided globally or per-engine.
 resolve_engine_option <- function(value, engine = "maxima") {
   if (is.null(value)) {
@@ -364,27 +386,71 @@ eng_maxima <- function(options) {
   # Replace newlines with spaces to keep everything on one line
   batch_string <- gsub("\n", " ", batch_string)
   
+  # Cache handling (skip execution when possible).
+  cache_enabled <- isTRUE(options$cache)
+  cache_key <- if (cache_enabled) build_cache_key(code, init_commands, options) else NULL
+  cache_root <- if (!is.null(cache_key)) get_cache_root(options) else NULL
+  cache_file <- if (!is.null(cache_root) && !is.null(cache_key)) {
+    dir.create(cache_root, recursive = TRUE, showWarnings = FALSE)
+    file.path(cache_root, paste0("maxima_", cache_key, ".rds"))
+  } else {
+    NULL
+  }
+  cache_plot_dir <- if (!is.null(cache_root) && !is.null(cache_key)) {
+    file.path(cache_root, paste0("maxima_", cache_key, "_plots"))
+  } else {
+    NULL
+  }
+  
+  used_cache <- FALSE
+  cached_result <- NULL
+  cached_output <- NULL
+  cached_plot_files <- NULL
+  
+  if (!is.null(cache_file) && file.exists(cache_file)) {
+    cached <- readRDS(cache_file)
+    cached_output <- cached$output %||% character(0)
+    cached_result <- cached$result %||% character(0)
+    cached_plot_files <- cached$plot_files %||% character(0)
+    used_cache <- TRUE
+    
+    # Restore cached plots into current target paths.
+    if (length(plot_files) > 0 && length(cached_plot_files) > 0) {
+      dir.create(dirname(plot_files[1]), recursive = TRUE, showWarnings = FALSE)
+      for (i in seq_along(plot_files)) {
+        if (i <= length(cached_plot_files) && file.exists(cached_plot_files[i])) {
+          dir.create(dirname(plot_files[i]), recursive = TRUE, showWarnings = FALSE)
+          file.copy(cached_plot_files[i], plot_files[i], overwrite = TRUE)
+        }
+      }
+    }
+  }
+  
   # Honor standard knitr engine options for executable path/flags/environment.
   maxima_cmd <- resolve_engine_path(options)
   maxima_args <- c("--very-quiet", resolve_engine_opts(options))
   maxima_env <- resolve_engine_env(options)
   
   # 7. EXECUTE MAXIMA WITH ERROR HANDLING
-  result <- tryCatch({
-    system2(
-      maxima_cmd,
-      args = maxima_args,
-      input = batch_string,
-      stdout = TRUE,
-      stderr = TRUE,
-      env = maxima_env
-    )
-  }, error = function(e) {
-    structure(
-      paste("System error executing Maxima:", e$message),
-      class = "maxima_system_error"
-    )
-  })
+  if (!used_cache) {
+    result <- tryCatch({
+      system2(
+        maxima_cmd,
+        args = maxima_args,
+        input = batch_string,
+        stdout = TRUE,
+        stderr = TRUE,
+        env = maxima_env
+      )
+    }, error = function(e) {
+      structure(
+        paste("System error executing Maxima:", e$message),
+        class = "maxima_system_error"
+      )
+    })
+  } else {
+    result <- cached_result %||% character(0)
+  }
   
   if (inherits(result, "maxima_system_error")) {
     if (isTRUE(options$error)) {
@@ -403,7 +469,7 @@ eng_maxima <- function(options) {
   }
   
   # 8. PROCESS OUTPUT AND FILTERING
-  output <- result
+  output <- if (used_cache) cached_output %||% character(0) else result
   
   # Always filter out session save/load file paths from output
   if (!is.null(session_state)) {
@@ -540,17 +606,21 @@ eng_maxima <- function(options) {
       
       # Combine multiple plots with spacing
       plot_output <- paste(plots_markdown, collapse = "\n\n")
-      
-      # Return with appropriate results type
-      opts_copy <- options
-      opts_copy$results <- "asis"  # Force asis for plots
-      
-      finalize_session(session_id, save_session_cmd)
-      return(knitr::engine_output(
-        opts_copy,
-        if (isTRUE(options$echo)) original_code else character(0),
-        paste0("\n\n", plot_output, "\n\n")
-      ))
+      # Handle fig.show hold by deferring plots to the end.
+      if (fig_show == "hold") {
+        deferred_plots <- plot_output
+      } else {
+        # Return with appropriate results type
+        opts_copy <- options
+        opts_copy$results <- "asis"  # Force asis for plots
+        
+        finalize_session(session_id, save_session_cmd)
+        return(knitr::engine_output(
+          opts_copy,
+          if (isTRUE(options$echo)) original_code else character(0),
+          paste0("\n\n", plot_output, "\n\n")
+        ))
+      }
     }
   }
   
@@ -595,6 +665,50 @@ eng_maxima <- function(options) {
   } else if (results_type == "markup") {
     # Wrap output in code block (knitr default)
     # knitr::engine_output handles this automatically
+  }
+  
+  # If plots were deferred via fig.show: hold, append them now.
+  if (exists("deferred_plots", inherits = FALSE) && length(deferred_plots) > 0) {
+    if (results_type == "markup" && length(output) > 0) {
+      text_output <- paste(output, collapse = "\n")
+      output <- c(
+        paste0("```\n", text_output, "\n```"),
+        "",
+        deferred_plots
+      )
+      results_type <- "asis"
+    } else {
+      output <- c(output, "", deferred_plots)
+      results_type <- "asis"
+    }
+    options$results <- results_type
+  }
+  
+  # Honor include: false (run but do not include in output).
+  if (isFALSE(options$include)) {
+    finalize_session(session_id, save_session_cmd)
+    return(knitr::engine_output(options, character(0), character(0)))
+  }
+  
+  # Persist cache on successful completion.
+  if (!used_cache && !is.null(cache_file)) {
+    if (!is.null(cache_plot_dir) && length(plot_files) > 0) {
+      dir.create(cache_plot_dir, recursive = TRUE, showWarnings = FALSE)
+      cached_plot_files <- character(0)
+      for (i in seq_along(plot_files)) {
+        if (file.exists(plot_files[i])) {
+          dest <- file.path(cache_plot_dir, basename(plot_files[i]))
+          file.copy(plot_files[i], dest, overwrite = TRUE)
+          cached_plot_files <- c(cached_plot_files, dest)
+        }
+      }
+    } else {
+      cached_plot_files <- character(0)
+    }
+    saveRDS(
+      list(output = output, result = result, plot_files = cached_plot_files),
+      cache_file
+    )
   }
   
   # Return the output using knitr's engine_output function
