@@ -63,11 +63,11 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| tex: true
 #| results: asis
 integrate(x^4 * sin(x), x);
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -85,12 +85,12 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| tex: true
 #| results: asis
 #| trigsimp: true
 sin(x)^2 + cos(x)^2;
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -109,13 +109,13 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| bfloat: true
 #| fpprec: 80
 #| tex: true
 #| results: asis
 sqrt(2) + %pi/7;
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -135,13 +135,13 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| session: true
-#| results: show
+#| results: hide
 #| tex: true
 A: matrix([1,2,3],[4,5,6],[7,8,9]);
 B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -149,6 +149,7 @@ B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
 ```{maxima}
 #| session: true
 #| results: hide
+#| tex: true
 A: matrix([1,2,3],[4,5,6],[7,8,9]);
 B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
 ```
@@ -158,12 +159,12 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| session: true
 #| tex: true
 #| results: asis
 A . B;
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -182,11 +183,13 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| format: "c"
 #| results: markup
+#| echo: true
+#| tex: true
 integrate(x^3 * exp(-x), x);
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -195,6 +198,7 @@ integrate(x^3 * exp(-x), x);
 #| format: "c"
 #| results: markup
 #| echo: true
+#| tex: true
 integrate(x^3 * exp(-x), x);
 ```
 
@@ -207,7 +211,7 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| plot: true
 #| label: fig-gnuplot-curves
 #| fig.dev: pdf
@@ -216,7 +220,7 @@ Chunk with options:
 #| plot_height: 700
 #| out.width: "90%"
 plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20]);
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -239,7 +243,7 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| plot: true
 #| label: fig-draw-2d
 #| plot_backend: draw
@@ -259,7 +263,7 @@ draw2d(
   color = dark_green,
   explicit(sin(3*x)/3, x, -2*%pi, 2*%pi)
 );
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -295,7 +299,7 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| plot: true
 #| label: fig-gnuplot-surface
 #| fig.dev: pdf
@@ -304,7 +308,7 @@ Chunk with options:
 #| plot_height: 800
 #| out.width: "90%"
 plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 50]);
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -327,7 +331,7 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| plot: true
 #| label: fig-draw-torus
 #| plot_backend: draw
@@ -350,7 +354,7 @@ draw3d(
     v, 0, 2*%pi
   )
 );
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -387,7 +391,7 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| plot: true
 #| label: fig-draw-spiral
 #| plot_backend: draw
@@ -403,7 +407,7 @@ draw3d(
   color = orange,
   explicit(z = x*sin(y), x, -4, 4, y, -4, 4)
 );
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -423,6 +427,239 @@ draw3d(
   surface_hide = true,
   color = orange,
   explicit(z = x*sin(y), x, -4, 4, y, -4, 4)
+);
+```
+
+
+# Advanced Capabilities
+
+## Equation Solving
+
+Chunk with options:
+
+```{=latex}
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{verbatim}
+#| tex: true
+#| results: asis
+solve([2*x + y = 5, x - y = 1], [x, y]);
+\end{verbatim}
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
+```
+
+```{maxima}
+#| tex: true
+#| results: asis
+solve([2*x + y = 5, x - y = 1], [x, y]);
+```
+
+## Series Expansion
+
+Chunk with options:
+
+```{=latex}
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{verbatim}
+#| tex: true
+#| results: asis
+taylor(sin(x)/x, x, 0, 8);
+\end{verbatim}
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
+```
+
+```{maxima}
+#| tex: true
+#| results: asis
+taylor(sin(x)/x, x, 0, 8);
+```
+
+## Laplace Transform
+
+Chunk with options:
+
+```{=latex}
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{verbatim}
+#| tex: true
+#| results: asis
+laplace(sin(2*t), t, s);
+\end{verbatim}
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
+```
+
+```{maxima}
+#| tex: true
+#| results: asis
+laplace(sin(2*t), t, s);
+```
+
+## Matrix Eigenvalues
+
+Chunk with options:
+
+```{=latex}
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{verbatim}
+#| load: "eigen"
+#| tex: true
+#| results: asis
+M: matrix([1,2,3],[2,5,6],[3,6,9]);
+eigenvalues(M);
+\end{verbatim}
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
+```
+
+```{maxima}
+#| load: "eigen"
+#| tex: true
+#| results: asis
+M: matrix([1,2,3],[2,5,6],[3,6,9]);
+eigenvalues(M);
+```
+
+## Parametric Curve (2D)
+
+Chunk with options:
+
+```{=latex}
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{verbatim}
+#| plot: true
+#| label: fig-parametric
+#| plot_backend: draw
+#| fig.dev: pdf
+#| fig-cap: "Parametric Lissajous curve"
+#| plot_width: 1000
+#| plot_height: 600
+#| out.width: "85%"
+load("draw");
+draw2d(
+  title = "Lissajous",
+  grid = true,
+  color = navy,
+  parametric(sin(3*t), sin(4*t), t, 0, 2*%pi)
+);
+\end{verbatim}
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
+```
+
+```{maxima}
+#| plot: true
+#| label: fig-parametric
+#| plot_backend: draw
+#| fig.dev: pdf
+#| fig-cap: "Parametric Lissajous curve"
+#| plot_width: 1000
+#| plot_height: 600
+#| out.width: "85%"
+load("draw");
+draw2d(
+  title = "Lissajous",
+  grid = true,
+  color = navy,
+  parametric(sin(3*t), sin(4*t), t, 0, 2*%pi)
+);
+```
+
+## Implicit Curve (2D)
+
+Chunk with options:
+
+```{=latex}
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{verbatim}
+#| plot: true
+#| label: fig-implicit
+#| plot_backend: draw
+#| fig.dev: pdf
+#| fig-cap: "Implicit curve: lemniscate"
+#| plot_width: 1000
+#| plot_height: 600
+#| out.width: "85%"
+load("draw");
+draw2d(
+  title = "Lemniscate",
+  grid = true,
+  color = dark_green,
+  implicit(x^4 + y^4 - 1, x, -1.5, 1.5, y, -1.5, 1.5)
+);
+\end{verbatim}
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
+```
+
+```{maxima}
+#| plot: true
+#| label: fig-implicit
+#| plot_backend: draw
+#| fig.dev: pdf
+#| fig-cap: "Implicit curve: lemniscate"
+#| plot_width: 1000
+#| plot_height: 600
+#| out.width: "85%"
+load("draw");
+draw2d(
+  title = "Lemniscate",
+  grid = true,
+  color = dark_green,
+  implicit(x^4 + y^4 - 1, x, -1.5, 1.5, y, -1.5, 1.5)
+);
+```
+
+## Polar Plot (2D)
+
+Chunk with options:
+
+```{=latex}
+\begin{qmdchunk}
+\texttt{\string`\string`\string`\{maxima\}}\\
+\begin{verbatim}
+#| plot: true
+#| label: fig-polar
+#| plot_backend: draw
+#| fig.dev: pdf
+#| fig-cap: "Polar rose"
+#| plot_width: 1000
+#| plot_height: 600
+#| out.width: "85%"
+load("draw");
+draw2d(
+  title = "Polar Rose",
+  grid = true,
+  color = magenta,
+  polar(1 + 0.5*cos(4*theta), theta, 0, 2*%pi)
+);
+\end{verbatim}
+\texttt{\string`\string`\string`}\\
+\end{qmdchunk}
+```
+
+```{maxima}
+#| plot: true
+#| label: fig-polar
+#| plot_backend: draw
+#| fig.dev: pdf
+#| fig-cap: "Polar rose"
+#| plot_width: 1000
+#| plot_height: 600
+#| out.width: "85%"
+load("draw");
+draw2d(
+  title = "Polar Rose",
+  grid = true,
+  color = magenta,
+  polar(1 + 0.5*cos(4*theta), theta, 0, 2*%pi)
 );
 ```
 
@@ -435,7 +672,7 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| plot: true
 #| label: fig-hold-1
 #| fig.show: hold
@@ -444,7 +681,7 @@ Chunk with options:
 #| plot_width: 900
 #| plot_height: 600
 plot2d(sin(x), [x, 0, 2*%pi]);
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
@@ -465,7 +702,7 @@ Chunk with options:
 ```{=latex}
 \begin{qmdchunk}
 \texttt{\string`\string`\string`\{maxima\}}\\
-\begin{lstlisting}[language=maxima]
+\begin{verbatim}
 #| plot: true
 #| label: fig-hold-2
 #| fig.show: hold
@@ -474,7 +711,7 @@ Chunk with options:
 #| plot_width: 900
 #| plot_height: 600
 plot2d(cos(x), [x, 0, 2*%pi]);
-\end{lstlisting}
+\end{verbatim}
 \texttt{\string`\string`\string`}\\
 \end{qmdchunk}
 ```
