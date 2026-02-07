@@ -38,11 +38,13 @@ TEXMFVAR=/tmp/texmf-var TEXMFCACHE=/tmp/texmf-cache quarto render maxima_showcas
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| tex: true
 #| results: asis
 integrate(x^4 * sin(x), x);
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| tex: true
@@ -54,12 +56,14 @@ integrate(x^4 * sin(x), x);
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| tex: true
 #| results: asis
 #| trigsimp: true
 sin(x)^2 + cos(x)^2;
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| tex: true
@@ -72,13 +76,15 @@ sin(x)^2 + cos(x)^2;
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| bfloat: true
 #| fpprec: 80
 #| tex: true
 #| results: asis
 sqrt(2) + %pi/7;
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| bfloat: true
@@ -92,11 +98,13 @@ sqrt(2) + %pi/7;
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| session: true
 A: matrix([1,2,3],[4,5,6],[7,8,9]);
 B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| session: true
@@ -106,12 +114,14 @@ B: matrix([2,-1,0],[-1,2,-1],[0,-1,2]);
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| session: true
 #| tex: true
 #| results: asis
 A . B;
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| session: true
@@ -124,11 +134,13 @@ A . B;
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| format: "c"
 #| results: markup
 integrate(x^3 * exp(-x), x);
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| format: "c"
@@ -143,7 +155,8 @@ integrate(x^3 * exp(-x), x);
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| plot: true
 #| label: fig-gnuplot-curves
 #| fig.dev: pdf
@@ -152,7 +165,8 @@ Chunk with options:
 #| plot_height: 700
 #| out.width: "90%"
 plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20]);
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| plot: true
@@ -169,7 +183,8 @@ plot2d([sin(x), cos(x)], [x, -2*%pi, 2*%pi], [nticks, 20]);
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| plot: true
 #| label: fig-draw-2d
 #| plot_backend: draw
@@ -189,7 +204,8 @@ draw2d(
   color = dark_green,
   explicit(sin(3*x)/3, x, -2*%pi, 2*%pi)
 );
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| plot: true
@@ -219,7 +235,8 @@ draw2d(
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| plot: true
 #| label: fig-gnuplot-surface
 #| fig.dev: pdf
@@ -228,7 +245,8 @@ Chunk with options:
 #| plot_height: 800
 #| out.width: "90%"
 plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 50]);
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| plot: true
@@ -245,7 +263,8 @@ plot3d(sin(sqrt(x^2 + y^2))/sqrt(x^2 + y^2), [x, -8, 8], [y, -8, 8], [grid, 50, 
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| plot: true
 #| label: fig-draw-torus
 #| plot_backend: draw
@@ -268,7 +287,8 @@ draw3d(
     v, 0, 2*%pi
   )
 );
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| plot: true
@@ -299,7 +319,8 @@ draw3d(
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| plot: true
 #| label: fig-draw-spiral
 #| plot_backend: draw
@@ -315,7 +336,8 @@ draw3d(
   color = orange,
   explicit(z = x*sin(y), x, -4, 4, y, -4, 4)
 );
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| plot: true
@@ -341,7 +363,8 @@ draw3d(
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| plot: true
 #| label: fig-hold-1
 #| fig.show: hold
@@ -350,7 +373,8 @@ Chunk with options:
 #| plot_width: 900
 #| plot_height: 600
 plot2d(sin(x), [x, 0, 2*%pi]);
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| plot: true
@@ -365,7 +389,8 @@ plot2d(sin(x), [x, 0, 2*%pi]);
 
 Chunk with options:
 
-\`\`\`{maxima}
+```text
+&#96;&#96;&#96;{maxima}
 #| plot: true
 #| label: fig-hold-2
 #| fig.show: hold
@@ -374,7 +399,8 @@ Chunk with options:
 #| plot_width: 900
 #| plot_height: 600
 plot2d(cos(x), [x, 0, 2*%pi]);
-\`\`\`
+&#96;&#96;&#96;
+```
 
 ```{maxima}
 #| plot: true
