@@ -10,7 +10,7 @@ header-includes:
   - \usepackage{listings}
   - \usepackage{xcolor}
   - \usepackage{tcolorbox}
-  - \newtcolorbox{qmdchunk}{colback=gray!10,colframe=gray!10,boxrule=0pt,arc=0pt}
+  - \newtcolorbox{qmdchunk}{colback=gray!10,colframe=gray!10,boxrule=0pt,arc=0pt,boxsep=4pt}
   - \lstdefinelanguage{maxima}{
       keywords={load,draw2d,draw3d,plot2d,plot3d,integrate,diff,solve,expand,factor,simplify,trigsimp,radcan,fullratsimp,trigreduce,tex,mathml},
       sensitive=true,
@@ -25,7 +25,7 @@ header-includes:
       stringstyle=\color{teal},
       showstringspaces=false,
       breaklines=true,
-      frame=single,
+      frame=none,
       backgroundcolor=\color{gray!10}
     }
 ---
