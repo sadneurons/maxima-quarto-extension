@@ -38,6 +38,8 @@ TEXMFVAR=/tmp/texmf-var TEXMFCACHE=/tmp/texmf-cache quarto render maxima_showcas
 
 Chunk with options:
 
+Note: The option block below is shown literally (with escaped backticks) so it renders in PDF as a copyable chunk.
+
 ```text
 &#96;&#96;&#96;{maxima}
 #| tex: true
