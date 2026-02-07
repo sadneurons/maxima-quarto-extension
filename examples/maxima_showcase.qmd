@@ -54,6 +54,10 @@ If you hit `luaotfload` cache errors while rendering, use:
 TEXMFVAR=/tmp/texmf-var TEXMFCACHE=/tmp/texmf-cache quarto render maxima_showcase.qmd --to pdf
 ```
 
+```{=latex}
+\newpage
+```
+
 # Symbolic Core
 
 ## Exact Calculus
@@ -102,6 +106,10 @@ sin(x)^2 + cos(x)^2;
 sin(x)^2 + cos(x)^2;
 ```
 
+```{=latex}
+\newpage
+```
+
 # Precision Control
 
 Chunk with options:
@@ -126,6 +134,10 @@ sqrt(2) + %pi/7;
 #| tex: true
 #| results: asis
 sqrt(2) + %pi/7;
+```
+
+```{=latex}
+\newpage
 ```
 
 # Sessions and Linear Algebra
@@ -176,6 +188,10 @@ A . B;
 A . B;
 ```
 
+```{=latex}
+\newpage
+```
+
 # Code Generation
 
 Chunk with options:
@@ -200,6 +216,10 @@ integrate(x^3 * exp(-x), x);
 #| echo: true
 #| tex: true
 integrate(x^3 * exp(-x), x);
+```
+
+```{=latex}
+\newpage
 ```
 
 # 2D Plot Gallery
@@ -288,6 +308,10 @@ draw2d(
   color = dark_green,
   explicit(sin(3*x)/3, x, -2*%pi, 2*%pi)
 );
+```
+
+```{=latex}
+\newpage
 ```
 
 # 3D Plot Gallery
@@ -405,7 +429,7 @@ draw3d(
   title = "Spiral Sheet",
   surface_hide = true,
   color = orange,
-  explicit(z = x*sin(y), x, -4, 4, y, -4, 4)
+  explicit(x*sin(y), x, -4, 4, y, -4, 4)
 );
 \end{verbatim}
 \texttt{\string`\string`\string`}\\
@@ -426,10 +450,14 @@ draw3d(
   title = "Spiral Sheet",
   surface_hide = true,
   color = orange,
-  explicit(z = x*sin(y), x, -4, 4, y, -4, 4)
+  explicit(x*sin(y), x, -4, 4, y, -4, 4)
 );
 ```
 
+
+```{=latex}
+\newpage
+```
 
 # Advanced Capabilities
 
@@ -443,6 +471,7 @@ Chunk with options:
 \begin{verbatim}
 #| tex: true
 #| results: asis
+#| tex: true
 solve([2*x + y = 5, x - y = 1], [x, y]);
 \end{verbatim}
 \texttt{\string`\string`\string`}\\
@@ -450,8 +479,8 @@ solve([2*x + y = 5, x - y = 1], [x, y]);
 ```
 
 ```{maxima}
-#| tex: true
 #| results: asis
+#| tex: true
 solve([2*x + y = 5, x - y = 1], [x, y]);
 ```
 
@@ -663,6 +692,10 @@ draw2d(
 );
 ```
 
+```{=latex}
+\newpage
+```
+
 # Output Control Showcase
 
 ## Hold Figures Until End
@@ -727,6 +760,21 @@ plot2d(cos(x), [x, 0, 2*%pi]);
 plot2d(cos(x), [x, 0, 2*%pi]);
 ```
 
-# Finish
+```{=latex}
+\newpage
+```
 
-This single document is intended as the canonical example for release documentation and screenshots.
+# Coda
+
+This showcase document demonstrates the comprehensive capabilities of the Maxima knitr engine for Quarto. Over the preceding sections, we have illustrated:
+
+- **Symbolic Mathematics**: Exact integration, differentiation, simplification, and algebraic manipulation using Maxima's core strengths.
+- **Precision Control**: Arbitrary-precision arithmetic via `bfloat` and `fpprec` for high-accuracy numerical results.
+- **Session Persistence**: Maintaining state across code chunks to enable multi-step workflows and linear algebra operations.
+- **Code Generation**: Conversion to C and other formats for practical integration into scientific computing pipelines.
+- **2D Visualization**: Both `plot2d` (gnuplot) and `draw2d` (draw package) for curves, parametric plots, implicit equations, and polar coordinates.
+- **3D Visualization**: Surface plots and parametric surfaces via `plot3d` and `draw3d`.
+- **Advanced Techniques**: Equation solving, Taylor series, Laplace transforms, eigenvalue computation, and more.
+- **Output Control**: Fine-grained management of figure rendering and display timing.
+
+The integration of Maxima with Quarto and R Markdown creates a powerful environment for technical publishing, enabling seamless blending of symbolic computation, numerical analysis, and publication-quality visualization. This extension brings the full expressiveness of computer algebra to scientific document authoring.update coda

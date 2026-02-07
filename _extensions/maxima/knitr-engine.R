@@ -268,14 +268,29 @@ eng_maxima <- function(options) {
   # 6. PLOT SUPPORT
   plot_use_draw <- FALSE
   plot_files <- c()  # Track multiple plots
-  if (!is.null(options$plot) && options$plot == TRUE) {
+  plot_requested <- isTRUE(options$plot)
+  if (!plot_requested && !is.null(options$plot)) {
+    plot_val <- tolower(as.character(options$plot)[1])
+    plot_requested <- plot_val %in% c("true", "t", "1", "yes", "y")
+  }
+  if (!plot_requested) {
+    plot_requested <- !is.null(options$fig.cap) ||
+      !is.null(options[["fig-cap"]]) ||
+      !is.null(options$plot_backend) ||
+      !is.null(options$plot_width) ||
+      !is.null(options$plot_height) ||
+      grepl("plot[23]d\\s*\\(|draw[23]d\\s*\\(", code)
+  }
+  if (plot_requested) {
     # Use knitr's figure path conventions
     # Get the base filename from current input
     input_file <- knitr::current_input()
     if (is.null(input_file) || input_file == "") {
       base_name <- "document"
+      input_dir <- getwd()
     } else {
       base_name <- sub("\\.[Qq]md$", "", basename(input_file))
+      input_dir <- dirname(input_file)
     }
     
     # Create meaningful filename from chunk label or use counter
@@ -303,10 +318,21 @@ eng_maxima <- function(options) {
       plot_file <- file.path(fig_dir, paste0(chunk_label, ".", fig_ext))
     }
     
-    fig_dir <- dirname(plot_file)
+    # Resolve output path (absolute) while keeping a relative path for markdown.
+    is_abs_path <- grepl("^(/|[A-Za-z]:[/\\\\])", plot_file)
+    plot_file_abs <- if (is_abs_path) plot_file else file.path(input_dir, plot_file)
+    
+    fig_dir <- dirname(plot_file_abs)
     if (!dir.exists(fig_dir)) {
       dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
     }
+    # Fallback to tempdir when the intended figure directory is not writable.
+    if (!dir.exists(fig_dir)) {
+      fig_dir <- file.path("/tmp", "maxima-figs", base_name, "figure-pdf")
+      dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
+      plot_file_abs <- file.path(fig_dir, paste0(chunk_label, ".", fig_ext))
+    }
+    
     
     plot_width <- if (!is.null(options$plot_width)) options$plot_width else 800
     plot_height <- if (!is.null(options$plot_height)) options$plot_height else 600
@@ -335,7 +361,7 @@ eng_maxima <- function(options) {
         
         if (!has_terminal && !has_filename) {
           # draw package adds extension automatically in some cases, so remove it from our path
-          file_base <- sub(sprintf("\\.%s$", fig_ext), "", plot_file)
+          file_base <- sub(sprintf("\\.%s$", fig_ext), "", plot_file_abs)
           
           # Replace draw2d( or draw3d( with draw2d(terminal=..., file_name=..., dimensions=...,
           code <- gsub("(draw[23]d)\\s*\\(", 
@@ -344,11 +370,7 @@ eng_maxima <- function(options) {
                       code)
           
           # Update plot_file to what draw will actually create
-          if (fig_dev == "png" || fig_dev == "svg") {
-            plot_file <- paste0(file_base, ".", fig_ext)
-          } else {
-            plot_file <- file_base  # PDF/EPS may handle differently
-          }
+          plot_file_abs <- paste0(file_base, ".", fig_ext)
         }
       }
     } else {
@@ -362,10 +384,10 @@ eng_maxima <- function(options) {
       
       init_commands <- c(init_commands, 
                         sprintf('set_plot_option([gnuplot_term, "%s"])', gnuplot_term),
-                        sprintf('set_plot_option([gnuplot_out_file, "%s"])', plot_file))
+                        sprintf('set_plot_option([gnuplot_out_file, "%s"])', plot_file_abs))
     }
     
-    plot_files <- c(plot_files, plot_file)
+    plot_files <- c(plot_files, plot_file_abs)
   }
   
   # Combine all commands
@@ -523,8 +545,16 @@ eng_maxima <- function(options) {
       plot_mentioned <- any(grepl(plot_file, result, fixed = TRUE))
       if (file.exists(plot_file) || plot_mentioned) {
         # File is already in the correct location (figure directory)
-        # Make path relative to document root for markdown
+        # Prefer a path relative to the input directory when possible.
         rel_plot_path <- plot_file
+        if (!is.null(input_dir) && nzchar(input_dir)) {
+          input_dir_norm <- normalizePath(input_dir, winslash = "/", mustWork = FALSE)
+          plot_norm <- normalizePath(plot_file, winslash = "/", mustWork = FALSE)
+          prefix <- paste0(input_dir_norm, "/")
+          if (startsWith(plot_norm, prefix)) {
+            rel_plot_path <- substr(plot_norm, nchar(prefix) + 1, nchar(plot_norm))
+          }
+        }
         
         # Build markdown with proper Quarto/Pandoc attributes
         fig_attrs <- c()
